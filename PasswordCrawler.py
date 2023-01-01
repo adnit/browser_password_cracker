@@ -19,6 +19,8 @@ class ChromePasswordCrawler:
     return x[:-x[-1]].decode('utf8')
 
   def getMasterKey(self):
+    # added this line to support older chrome verions
+    MY_PASS = 'peanuts'.encode('utf8')
     bus = secretstorage.dbus_init()
     collection = secretstorage.get_default_collection(bus)
     for item in collection.get_all_items():
