@@ -1,13 +1,6 @@
-from hashlib import pbkdf2_hmac, sha1
 import sys
-
-import secretstorage
-from importlib import import_module
-import secretstorage
-from Crypto.Cipher import AES
-from Crypto.Protocol.KDF import PBKDF2
 from PyQt6.QtWidgets import QApplication, QLabel, QWidget
-import password
+from PasswordCrawler import PasswordCrawler
 
 app = QApplication([])
 
@@ -18,5 +11,8 @@ helloMsg = QLabel("<h1>Hello, World!</h1>", parent=window)
 helloMsg.move(60, 15)
 
 window.show()
+
+p1 = PasswordCrawler()
+p1.decryptPasswords()
 
 sys.exit(app.exec())
