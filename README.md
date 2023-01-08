@@ -135,6 +135,11 @@ Ju gjithashtu mund të zgjidhni nga një nga formatet e mbështetura me --format
  * `csv` - Formatin csv
  * `tabular` - E ngjashme me csv, por në vend të kësaj shfaqen nw formë tabelare.
 
+
+```bash
+   python firefox_decrypt.py --format human 
+```
+
 ---
 
 ## Punuan
