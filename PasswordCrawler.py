@@ -6,8 +6,10 @@ from getpass import getuser
 from importlib import import_module
 from os import unlink
 import secretstorage
-from Crypto.Protocol.KDF import PBKDF2
-from Crypto.Cipher import AES
+import platform
+if platform.system() == 'Linux':
+    from Crypto.Protocol.KDF import PBKDF2
+    from Crypto.Cipher import AES
 
 
 class Chrome:
