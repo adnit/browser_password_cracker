@@ -95,7 +95,7 @@ def chrome():
     db.close()
 
     try:
-        # Provon te largon kopjen e filit te bazes se dhenave nga kompjuteri
+        # Provon te largon kopjen e file-t te bazes se dhenave nga kompjuteri
         os.remove(filename)
     except:
         pass
