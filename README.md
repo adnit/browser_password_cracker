@@ -127,6 +127,13 @@ Nëse profilet e juaja janë të vendosura në një path tjeter, mund të përdo
 ```bash
   python firefox_decrypt.py /folder/containing/profiles.ini/
 ```
+### Menyra te tjera 
+
+Ju gjithashtu mund të zgjidhni nga një nga formatet e mbështetura me --format:
+
+human - një format që shfaq një rekord për çdo 3 rreshta
+csv - formatin csv
+tabular - e ngjashme me csv, por në vend të kësaj shfaqen nw formë tabelare.
 
 ---
 
