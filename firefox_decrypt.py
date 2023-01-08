@@ -1,5 +1,4 @@
 from __future__ import annotations
-
 import argparse
 import csv
 import ctypes as ct
@@ -27,8 +26,6 @@ DEFAULT_ENCODING = "utf-8"
 
 PWStore = list[dict[str, str]]
 
-
-
 def get_version() -> str:
     """Obtain version information from git if available otherwise use
     the internal version number
@@ -46,7 +43,6 @@ def get_version() -> str:
     else:
         return p.stdout.strip()
 
-
 __version_info__ = (1, 0, 0, "+git")
 __version__: str = get_version()
 
@@ -55,7 +51,6 @@ class NotFoundError(Exception):
     """Exception to handle situations where a credentials file is not found
     """
     pass
-
 
 class Exit(Exception):
     """Exception to allow a clean exit from any point in execution
@@ -167,7 +162,6 @@ class JsonCredentials(Credentials):
             for i in logins:
                 yield (i["hostname"], i["encryptedUsername"],
                        i["encryptedPassword"], i["encType"])
-
 
 def find_nss(locations, nssname) -> ct.CDLL:
     """Locate nss is one of the many possible locations
@@ -318,12 +312,10 @@ def load_libnss():
     # If this succeeds libnss was loaded
     return find_nss(locations, nssname)
 
-
 class c_char_p_fromstr(ct.c_char_p):
     """ctypes char_p override that handles encoding str to bytes"""
     def from_param(self):
         return self.encode(DEFAULT_ENCODING)
-
 
 class NSSProxy:
     class SECItem(ct.Structure):
@@ -416,7 +408,6 @@ class NSSProxy:
                 Exit.FAIL_NSS_KEYSLOT,
                 "Failed to retrieve internal KeySlot",
             )
-
         try:
             if self._PK11_NeedLogin(keyslot):
                 password: str = ask_password(profile, interactive)
@@ -431,7 +422,6 @@ class NSSProxy:
                         Exit.BAD_MASTER_PASSWORD,
                         "Master password is not correct",
                     )
-
             else:
                 LOG.info("No Master Password found - no authentication needed")
         finally:
@@ -451,7 +441,7 @@ class NSSProxy:
         name = "NULL" if name is None else name
         # 0 is the default language (localization related)
         text = self._PR_ErrorToString(code, 0)
-
+        
         LOG.debug("%s: %s", name, text)
 
         raise Exit(exitcode)
@@ -476,7 +466,6 @@ class NSSProxy:
             self._SECITEM_ZfreeItem(out, 0)
 
         return res
-
 
 class MozillaInteraction:
     """
@@ -556,8 +545,6 @@ class MozillaInteraction:
                 raise Exit(Exit.MISSING_SECRETS)
 
         return credentials
-
-
 class OutputFormat:
     def __init__(self, pwstore: PWStore, cmdargs: argparse.Namespace):
         self.pwstore = pwstore
@@ -565,8 +552,6 @@ class OutputFormat:
 
     def output(self):
         pass
-
-
 class HumanOutputFormat(OutputFormat):
     def output(self):
         for output in self.pwstore:
@@ -736,7 +721,6 @@ def get_sections(profiles):
             continue
     return sections
 
-
 def print_sections(sections, textIOWrapper=sys.stderr):
     """
     Prints all available sections to an textIOWrapper (defaults to sys.stderr)
@@ -744,7 +728,6 @@ def print_sections(sections, textIOWrapper=sys.stderr):
     for i in sorted(sections):
         textIOWrapper.write(f"{i} -> {sections[i]}\n")
     textIOWrapper.flush()
-
 
 def ask_section(sections: ConfigParser):
     """
@@ -789,7 +772,6 @@ def ask_password(profile: str, interactive: bool) -> str:
 
     return passwd
 
-
 def read_profiles(basepath):
     """
     Parse Firefox profiles in provided location.
@@ -810,7 +792,6 @@ def read_profiles(basepath):
     LOG.debug("Read profiles %s", profiles.sections())
 
     return profiles
-
 
 def get_profile(basepath: str, interactive: bool, choice: Optional[str], list_profiles: bool):
     """
@@ -873,7 +854,6 @@ def get_profile(basepath: str, interactive: bool, choice: Optional[str], list_pr
 
     return profile
 
-
 # From https://bugs.python.org/msg323681
 class ConvertChoices(argparse.Action):
     """Argparse action that interprets the `choices` argument as a dict
@@ -886,7 +866,6 @@ class ConvertChoices(argparse.Action):
 
     def __call__(self, parser, namespace, value, option_string=None):
         setattr(namespace, self.dest, self.mapping[value])
-
 
 def parse_sys_args() -> argparse.Namespace:
     """Parse command line arguments
@@ -991,8 +970,6 @@ def parse_sys_args() -> argparse.Namespace:
         args.csv_delimiter = "\t"
 
     return args
-
-
 def setup_logging(args) -> None:
     """Setup the logging level and configure the basic logger
     """
@@ -1025,8 +1002,6 @@ def identify_system_locale() -> str:
         raise Exit(Exit.BAD_LOCALE)
 
     return encoding
-
-
 def main() -> None:
     """Main entry point
     """
