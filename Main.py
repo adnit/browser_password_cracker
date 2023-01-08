@@ -1,3 +1,4 @@
+import firefox_decrypt
 import Chrome
 import Edge
 from PasswordCrawler import PasswordCrawler
@@ -13,9 +14,11 @@ val = input("You have 3 options: \n"
 if __name__ == "__main__":
     if val == "Edge":
         Edge.edge()
-    if val == "Chrome":
+    elif val == "Chrome":
         Chrome.chrome()
-    if val == "Chrome-Linux":
+    elif val == "Mozilla":
+        firefox_decrypt.main()
+    elif val == "Chrome-Linux":
         chromeLinux = PasswordCrawler()
         data = chromeLinux.dump_passwords()
         print(tabulate(data, headers=["url", "username", "password"]))
