@@ -118,9 +118,9 @@ Mjeti do të paraqesë një listë të numëruar të profileve.
 
 Pastaj, një kërkesë për të vendosur fjalëkalimin kryesor për profilin:
 
-Nëse nuk është vendosur asnjë fjalëkalim, nuk do të kërkohet një i tillë.
-Nëse një fjalëkalim është vendosur dhe dihet, futeni atë dhe shtypni butonin Kthehu ose Enter
-Nëse është vendosur një fjalëkalim dhe nuk dihet më, nuk mund të vazhdosh
+* Nëse nuk është vendosur asnjë fjalëkalim, nuk do të kërkohet një i tillë.
+* Nëse një fjalëkalim është vendosur dhe dihet, futeni atë dhe shtypni butonin Kthehu ose Enter
+* Nëse është vendosur një fjalëkalim dhe nuk dihet më, nuk mund të vazhdosh
 
 Nëse profilet e juaja janë të vendosura në një path tjeter, mund të përdorni komanden:
 
@@ -131,9 +131,9 @@ Nëse profilet e juaja janë të vendosura në një path tjeter, mund të përdo
 
 Ju gjithashtu mund të zgjidhni nga një nga formatet e mbështetura me --format:
 
-human - një format që shfaq një rekord për çdo 3 rreshta
-csv - formatin csv
-tabular - e ngjashme me csv, por në vend të kësaj shfaqen nw formë tabelare.
+ * `human` - Një format që shfaq një rekord për çdo 3 rreshta
+ * `csv` - Formatin csv
+ * `tabular` - E ngjashme me csv, por në vend të kësaj shfaqen nw formë tabelare.
 
 ---
 
