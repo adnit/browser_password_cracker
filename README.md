@@ -102,6 +102,31 @@ def password_decryption(password, encryption_key):
             print(f"User name: {user_name}")
             print(f"Decrypted Password: {decrypted_password}")
 ```
+## Leximi i passwordeve te ruajtur ne Mozilla Firefox 
+
+Firefox_decrypt.py është një mjet për nxjerrjen e fjalëkalimeve nga profilet e Mozilla Firefox. Nese fjalkalimi kryesore nuk dihet, nuk kthen asnje te dhene.
+
+Kërkon akses te libnss3, i përfshirë me shumicën e produkteve të Mozilla-s. 
+
+### Perdorimi 
+
+```bash
+   python firefox_decrypt.py
+```
+
+Mjeti do të paraqesë një listë të numëruar të profileve. 
+
+Pastaj, një kërkesë për të vendosur fjalëkalimin kryesor për profilin:
+
+Nëse nuk është vendosur asnjë fjalëkalim, nuk do të kërkohet një i tillë.
+Nëse një fjalëkalim është vendosur dhe dihet, futeni atë dhe shtypni butonin Kthehu ose Enter
+Nëse është vendosur një fjalëkalim dhe nuk dihet më, nuk mund të vazhdosh
+
+Nëse profilet e juaja janë të vendosura në një path tjeter, mund të përdorni komanden:
+
+```bash
+  python firefox_decrypt.py /folder/containing/profiles.ini/
+```
 
 ---
 
