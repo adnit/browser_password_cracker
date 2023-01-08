@@ -1,9 +1,11 @@
 import os
 import json
 import base64
+import platform
 import sqlite3
 # pip install pypiwin32 komanda per me instalu win32
-import win32crypt
+if platform.system() != 'Linux':
+    import win32crypt
 from Cryptodome.Cipher import AES
 import shutil
 from datetime import timezone, datetime, timedelta
