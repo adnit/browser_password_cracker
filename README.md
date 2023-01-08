@@ -1,4 +1,4 @@
-# Zhvillimi i aplikacionit qe lexon passwordet e ruajtur ne browseret klasik (Edge, Chrome, Mozilla)
+# Zhvillimi i aplikacionit që lexon passwordët e ruajtur në browseret klasik (Edge, Chrome, Mozilla)
 ## Teknologjitë e përdorura
 * Python
   * `os`
@@ -25,17 +25,17 @@ pip install pycryptodomex
 ---
 ## Implementimi
 > Hapat realizues:
-1. Fillimisht kemi nje funksion qe merr daten dhe kohen
-2. Marrja e qelsit enkriptues te shfletuesit
-3. Dekriptimi i fjalkalimit
-4. Lidhja me databaz
-5. Selektimi i rreshtave te tabeles "login"
-6. Iterimi ne te gjith rreshtat 
-7. Printimi i te gjith rreshtave qe i merr
-8. Mbyllja e databazes
+1. Fillimisht kemi një funksion që merr datën dhe kohën
+2. Marrja e qelësit enkriptues të shfletuesit
+3. Dekriptimi i fjalëkalimit
+4. Lidhja me databazë
+5. Selektimi i rreshtave të tabelës "login"
+6. Iterimi në të gjith rreshtat 
+7. Printimi i të gjith rreshtave qe i merr
+8. Mbyllja e databazës
 9. Largimi i file-it te krijuar
 
-### Marrja e qelsit enkriptues
+### Marrja e qelësit enkriptues
 ```python
 def fetching_encryption_key():
     # Pathi qe eshte ne kompjuterin e shfrytzuesit
@@ -58,7 +58,7 @@ def fetching_encryption_key():
     return win32crypt.CryptUnprotectData(encryption_key, None, None, None, 0)[1]
 ```
 
-### Dekriptimi i fjalkalimit
+### Dekriptimi i fjalëkalimit
 ```python 
 def password_decryption(password, encryption_key):
     try:
@@ -77,7 +77,7 @@ def password_decryption(password, encryption_key):
         except:
             return "No Passwords"
 ```
-### Krijimi i nje file per ruajtjen e te dhenave
+### Krijimi i një file për ruajtjen e të dhënave
 ```python
   key = fetching_encryption_key_chrome()
     db_path = os.path.join(os.environ["USERPROFILE"], "AppData", "Local",
@@ -86,7 +86,7 @@ def password_decryption(password, encryption_key):
     shutil.copyfile(db_path, filename)
 ```
 
-### Marrja e te dhenave nga file ku i kemi ruajtur dhe shtypja e tyre
+### Marrja e të dhenave nga file ku i kemi ruajtur dhe shtypja e tyre
 ```python
  for row in cursor.fetchall():
         main_url = row[0]
@@ -102,13 +102,13 @@ def password_decryption(password, encryption_key):
             print(f"User name: {user_name}")
             print(f"Decrypted Password: {decrypted_password}")
 ```
-## Leximi i passwordeve te ruajtur ne Mozilla Firefox 
+## Leximi i fjalëkalimeve të ruajtura në Mozilla Firefox 
 
 Firefox_decrypt.py është një mjet për nxjerrjen e fjalëkalimeve nga profilet e Mozilla Firefox. Nese fjalkalimi kryesore nuk dihet, nuk kthen asnje te dhene.
 
 Kërkon akses te libnss3, i përfshirë me shumicën e produkteve të Mozilla-s. 
 
-### Perdorimi 
+### Përdorimi 
 
 ```bash
    python firefox_decrypt.py
@@ -127,9 +127,9 @@ Nëse profilet e juaja janë të vendosura në një path tjeter, mund të përdo
 ```bash
   python firefox_decrypt.py /folder/containing/profiles.ini/
 ```
-### Menyra te tjera 
+### Mënyra të tjera 
 
-Ju gjithashtu mund të zgjidhni nga një nga formatet e mbështetura me --format:
+Ju gjithashtu mund të zgjidhni një nga formatet e mbështetura me `--format`:
 
  * `human` - Një format që shfaq një rekord për çdo 3 rreshta
  * `csv` - Formatin csv
